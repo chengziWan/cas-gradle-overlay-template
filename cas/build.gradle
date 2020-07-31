@@ -52,12 +52,27 @@ repositories {
 }
 
 dependencies {
+    // **************************************************************************************//
+    // ADD-WCC: 添加jdbc依赖   [WanCC 2020/7/31  13:45]
+    compile (group: "org.apereo.cas", name: "cas-server-support-jdbc", version: "${project.'cas.version'}")
+    compile (group: "org.apereo.cas", name: "cas-server-support-jdbc-drivers", version: "${project.'cas.version'}")
+    // 不需要引入mysql 在cas-server-support-jdbc-drivers 中有   [WanCC 2020/7/31  14:51]
+    //compile group: "mysql", name: "mysql-connector-java", version: "${project.'mysql.version'}"
+
+
+    // **************************************************************************************//
+    
     compile "org.apereo.cas:cas-server-webapp-tomcat:${project.'cas.version'}@war"
     if (!project.hasProperty('bootiful')) {
         // Other dependencies may be listed here...
     } else {
         println "Running CAS in Bootiful mode; all dependencies except the CAS web application are ignored."
     }
+}
+// ADD-WCC: 统一排除   [WanCC 2020/7/31  14:59]
+configurations.all {
+    exclude group: "org.slf4j"//, module: "slf4j-log4j12"
+    exclude group: "org.apache.logging.log4j"//, module: "log4j"
 }
 
 task copyConfig(type: Copy, description: "Copy CAS configuration over to /etc/cas/config") {
