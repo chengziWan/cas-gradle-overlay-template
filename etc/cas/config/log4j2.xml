@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- Specify the refresh internal in seconds. -->
+<!-- Specify the refresh internal in seconds. 20200817-->
 <Configuration monitorInterval="5" packages="org.apereo.cas.logging">
     <Properties>
         <Property name="baseDir">/etc/cas/logs</Property>
     </Properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %p [%c] - &lt;%m&gt;%n"/>
+<!--            <PatternLayout pattern="%d %p [%c] - &lt;%m&gt;%n"/>-->
+            <PatternLayout pattern="%p [%c] - &lt;%m&gt;%n"/>
         </Console>
 
         <RollingFile name="file" fileName="log/cas.log" append="true"

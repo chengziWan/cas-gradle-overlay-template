@@ -1,2 +1,78 @@
 info:
   description: CAS Configuration
+########################################################################################################
+########################################fixmewcc 20200731###############################################
+#server.ssl.key-store=file:/etc/cas/thekeystore
+#server.ssl.key-store-password=changeit
+#server.ssl.key-password=changeit
+
+## 打开https   [WanCC 2020/7/31  13:48]
+server:
+  ssl:
+    enabled: true
+    ## 配置证书   [WanCC 2020/7/31  13:48]
+    keyStore: file:/etc/cas/casServer.keystore
+    keyStorePassword: 123456
+    keyPassword: 123456
+########################################################################################################
+########################################################################################################
+########################################fixmewcc 20200731###############################################
+##
+# CAS Authentication Credentials
+#
+## 屏蔽静态账户   [WanCC 2020/7/31  13:48]
+#cas.authn.accept.users=casuser::Mellon
+
+
+## 添加jdbc认证   [WanCC 2020/7/31  13:52]
+#添加jdbc认证
+cas:
+  authn:
+    jdbc:
+      query[0]:
+        sql: SELECT * FROM user_info WHERE account =?
+        #哪一个字段作为密码字段
+        fieldPassword: password
+        #配置数据库连接
+        url: jdbc:mysql://127.0.0.1:3306/cas53_20200731?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+        dialect: org.hibernate.dialect.MySQLDialect
+        #数据库用户名
+        user: root
+        #数据库密码
+        password: 123456
+        #mysql驱动
+        driverClass: com.mysql.cj.jdbc.Driver
+
+        ## 登录密码配置加密策略   [WanCC 2020/7/31  14:00]
+        #登录密码配置加密策略
+        passwordEncoder:
+          type: DEFAULT
+          characterEncoding: UTF-8
+          encodingAlgorithm: MD5
+
+      ## 对密码进行盐值处理   [WanCC 2020/7/31  15:18]
+      #注意：如果两种方式都配置的话,默认先用普通MD5验证，如果验证失败，打印异常日志,然后再使用加盐方式验证
+      #加密迭代次数
+      encode[0]:
+        numberOfIterations: 2
+        #该列名的值可替代上面的值，但对密码加密时必须取该值进行处理
+        numberOfIterationsFieldName:
+        #盐值固定列
+        saltFieldName: account
+        #静态盐值
+        staticSalt: .
+        sql: SELECT * FROM user_info WHERE account =?
+        #对处理盐值后的算法
+        algorithmName: MD5
+        passwordFieldName: password
+        expiredFieldName: expired
+        disabledFieldName: disabled
+        #数据库连接
+        url: jdbc:mysql://127.0.0.1:3306/cas53_20200731?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+        dialect: org.hibernate.dialect.MySQLDialect
+        driverClass: com.mysql.cj.jdbc.Driver
+        user: root
+        password: 123456
+
+
+########################################################################################################

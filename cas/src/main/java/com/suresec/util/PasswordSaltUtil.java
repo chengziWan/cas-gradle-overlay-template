@@ -42,7 +42,6 @@ public class PasswordSaltUtil
         System.out.println(res);
         return  res;
     }
-
     public static void main(String[] args) {
         try {
             PasswordSaltUtil.encryPassword("test","123456");
