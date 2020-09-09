@@ -10,8 +10,9 @@ if (!currentVersion.contains("RC")) {
     }
 }
 logger.info "Using CAS branch [${currentBranch}] to handle overrides"
-apply from: "https://raw.githubusercontent.com/apereo/cas/${currentBranch}/gradle/overrides.gradle"
-
+// 这个地址不通，我改到本地了   [WanCC 2020/9/7  15:59]
+//apply from: "https://raw.githubusercontent.com/apereo/cas/${currentBranch}/gradle/overrides.gradle"
+apply from: "/overrides.gradle"
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
